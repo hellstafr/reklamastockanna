@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ГородКадр — Личный кабинет</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{background:#f4f7f3;color:#202720;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;min-height:100svh;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:rgba(244,247,243,0.96);border-bottom:1px solid rgba(49,93,56,0.14);backdrop-filter:blur(16px);}
+.logo{font-size:18px;font-weight:700;background:linear-gradient(135deg,#315d38,#c9f36b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none;letter-spacing:.5px;}
+.nav-back{font-size:13px;color:#718071;text-decoration:none;}
+
+.wrap{padding-top:72px;max-width:480px;margin:0 auto;padding-left:16px;padding-right:16px;padding-bottom:60px;}
+
+.profile{text-align:center;padding:24px 0 20px;}
+.av{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#315d38,#c9f36b);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px;box-shadow:0 0 24px rgba(49,93,56,0.18);}
+.p-nick{font-size:20px;font-weight:700;margin-bottom:3px;color:#202720;}
+.badge{display:inline-flex;align-items:center;gap:5px;background:rgba(47,184,114,0.12);border:1px solid rgba(47,184,114,0.3);border-radius:100px;padding:4px 12px;font-size:11px;font-weight:600;color:#315d38;margin-top:8px;}
+
+.bal-card{background:#ffffff;border:1px solid #dfe7dc;border-radius:16px;padding:20px;margin-bottom:12px;}
+.bal-lbl{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#718071;margin-bottom:6px;}
+.bal-amt{font-size:42px;font-weight:700;color:#202720;line-height:1;margin-bottom:4px;}
+.bal-sub{font-size:12px;color:#718071;}
+
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.sc{background:#ffffff;border:1px solid #dfe7dc;border-radius:12px;padding:12px 10px;text-align:center;}
+.sn{font-size:22px;font-weight:700;color:#202720;}
+.sl{font-size:10px;color:#718071;margin-top:3px;}
+
+.info{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.ic{background:#ffffff;border:1px solid #dfe7dc;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px;}
+.ii{width:36px;height:36px;border-radius:8px;background:rgba(201,243,107,0.28);border:1px solid rgba(49,93,56,0.12);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.il{font-size:11px;color:#718071;margin-bottom:2px;}
+.iv{font-size:14px;font-weight:600;word-break:break-all;color:#202720;}
+
+    .btn-w {
+        display: flex;
+        text-decoration: none;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        background: linear-gradient(135deg,#2fb872,#3fd487);
+        color: #fff9f5;
+        font-family: inherit;
+        font-size: 17px;
+        font-weight: 600;
+        padding: 16px;
+        border-radius: 13px;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(47,184,114,0.3);
+        margin-bottom: 14px;
+    }
+.btn-w:active{opacity:.9;}
+
+.btn-more{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;background:transparent;border:1px solid #f3d3de;color:#718071;font-family:inherit;font-size:14px;padding:13px;border-radius:12px;text-decoration:none;margin-bottom:20px;}
+
+.r-ttl{font-size:15px;font-weight:600;margin-bottom:10px;color:#202720;}
+.r-list{display:flex;flex-direction:column;gap:8px;}
+.ri{background:#ffffff;border:1px solid #dfe7dc;border-radius:12px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;animation:slideIn .35s ease both;}
+@keyframes slideIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.ri-l{display:flex;flex-direction:column;gap:2px;}
+.ri-user{font-size:14px;font-weight:600;color:#202720;}
+.ri-buyer{font-size:12px;color:#718071;}
+.ri-price{font-size:15px;font-weight:700;color:#315d38;white-space:nowrap;}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;z-index:200;background:rgba(25,35,27,0.48);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:24px;}
+.overlay.open{display:flex;}
+.modal{background:#ffffff;border:1px solid #dfe7dc;border-radius:18px;padding:28px 22px 22px;width:100%;max-width:380px;position:relative;animation:popIn .25s cubic-bezier(.34,1.1,.64,1) both;}
+@keyframes popIn{from{transform:scale(.93);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-close{position:absolute;top:14px;right:14px;width:30px;height:30px;background:rgba(201,243,107,0.25);border:none;border-radius:50%;color:#718071;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.modal-close:active{opacity:.7;}
+.modal-title{font-size:17px;font-weight:700;margin-bottom:12px;padding-right:32px;color:#202720;}
+.modal-text{font-size:14px;color:#718071;line-height:1.7;margin-bottom:20px;}
+.modal-text b{color:#202720;}
+.modal-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:linear-gradient(135deg,#315d38,#477c4b);color:#ffffff;font-family:inherit;font-size:15px;font-weight:600;padding:14px;border-radius:12px;border:none;cursor:pointer;text-decoration:none;}
+.modal-btn:active{opacity:.9;}
+
+.footer{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:28px;padding:16px 0 4px;border-top:1px solid rgba(255,111,165,0.15);}
+.footer-text{font-size:11px;color:rgba(82,98,82,0.62);letter-spacing:.3px;}
+.footer-info{width:14px;height:14px;border-radius:50%;border:1px solid rgba(82,98,82,0.35);display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:rgba(82,98,82,0.55);cursor:pointer;line-height:1;flex-shrink:0;}
+.footer-info:active{opacity:.6;}
+
+/* ГородКадр: единый спокойный стиль с лаймовым акцентом */
+.logo{letter-spacing:-.2px;}
+.bal-amt{letter-spacing:-1.2px;}
+.btn-w{background:#315d38;color:#fff;border-radius:12px;box-shadow:none;}
+.btn-w:hover{background:#264a2c;}
+.badge{background:rgba(49,93,56,.08);border-color:rgba(49,93,56,.18);color:#315d38;}
+.ri{box-shadow:0 1px 2px rgba(32,39,32,.025);}
+.modal{background:#fff;border-color:#dfe7dc;}
+@media (prefers-color-scheme: dark){
+  body{background:#101512;color:#e8eee7;}
+  nav{background:rgba(16,21,18,.96);border-bottom-color:#29332b;}
+  .p-nick,.bal-amt,.sn,.iv,.r-ttl,.ri-user,.modal-title,.modal-text b{color:#e8eee7;}
+  .bal-card,.sc,.ic,.ri,.modal{background:#191f1b;border-color:#2b352d;}
+  .bal-lbl,.bal-sub,.sl,.il,.nav-back,.ri-buyer,.modal-text{color:#a6b2a4;}
+  .btn-more{border-color:#344137;color:#c0cbbd;}
+  .footer{border-top-color:#29332b;}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="logo">ГородКадр</a>
+  <a href="index.html" class="nav-back">← К заданиям</a>
+</nav>
+
+<div class="wrap">
+  <div class="profile">
+    <div class="av">📸</div>
+    <div class="p-nick" id="pNick">@gorodkadr</div>
+    <div class="badge">✓ Профиль фотографа</div>
+  </div>
+
+  <div class="bal-card">
+    <div class="bal-lbl">Предварительная оценка фотографий</div>
+    <div class="bal-amt" id="balAmt">0 ₽</div>
+    <!-- <div class="bal-sub">Доступно для вывода</div> -->
+  </div>
+
+  <div class="stats">
+    <div class="sc"><div class="sn" id="stS">0</div><div class="sl">Просмотры ваших фото</div></div>
+    <div class="sc"><div class="sn" id="stP">0</div><div class="sl">Фото рекламы загружено</div></div>
+  </div>
+
+  <div class="info">
+    <div class="ic"><div class="ii">👤</div><div><div class="il">Ваш никнейм</div><div class="iv" id="iNick">—</div></div></div>
+    <div class="ic"><div class="ii">📅</div><div><div class="il">Дата регистрации</div><div class="iv" id="iDate">—</div></div></div>
+  </div>
+
+  <a href="index.html" class="btn-w">📸 Продолжить загружать фото</a>
+
+
+  <div class="r-ttl">Последние оценки фотографий</div>
+  <div class="r-list" id="rList"></div>
+  <div class="bal-sub" style="text-align:center;margin-top:10px;">Примеры активности на демонстрационной странице</div>
+
+  <div class="footer">
+    <span class="footer-text">ГородКадр — все данные защищены · фото рекламы · профиль</span>
+    <span class="footer-info" onclick="openModal()">!</span>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="closeIfOutside(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">О фотографиях и данных</div>
+    <div class="modal-text">
+      Фотографии рекламы — например, с билбордов, экранов, афиш, листовок и витрин — предназначены для демонстрации в рамках задания. Не фотографируйте людей крупным планом и не загружайте изображения с личными документами или другими конфиденциальными данными. Условия хранения и обработки фото должны быть указаны владельцем сайта.
+    </div>
+  </div>
+</div>
+
+<script>
+const sellers=['@CityFrame','@StreetFocus','@AdHunter','@UrbanShot','@LensWalker','@PosterPic','@BillboardEye','@ScreenCapture','@PhotoRoute','@StreetLens','@CityPixel','@AdFrame','@WallShot','@UrbanPhoto','@KadrPro','@LightFinder','@CityView','@OutdoorLens'];
+const buyers=['Билборд у дороги','Реклама на ТВ','Афиша на улице','Листовка у магазина','Экран на остановке','Реклама на витрине','Информационный стенд','Плакат на столбе','Экран в торговом центре','Реклама в транспорте'];
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+
+const nick = sessionStorage.getItem('psx_nick') || ('minismena'+rnd(100000,999999));
+sessionStorage.setItem('psx_nick', nick);
+const balance = parseInt(sessionStorage.getItem('psx_balance') || '0');
+const sales = parseInt(sessionStorage.getItem('psx_sales') || '0');
+
+document.getElementById('pNick').textContent = '@' + nick;
+document.getElementById('balAmt').textContent = balance.toLocaleString('ru-RU') + ' ₽';
+document.getElementById('iNick').textContent = '@' + nick;
+document.getElementById('stS').textContent = sales;
+document.getElementById('stP').textContent = rnd(3,10);
+document.getElementById('iDate').textContent = new Date().toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'});
+
+const list = document.getElementById('rList');
+if(balance > 0) addSale('@'+nick, pick(buyers), balance, false);
+for(let i=0;i<4;i++) addSale(pick(sellers), pick(buyers), rnd(200,2000), false);
+
+function scheduleNext(){
+  setTimeout(()=>{ addSale(pick(sellers), pick(buyers), rnd(200,2000), true); scheduleNext(); }, rnd(3000,6000));
+}
+scheduleNext();
+
+function addSale(seller, buyer, price, animate){
+  const item = document.createElement('div');
+  item.className = 'ri';
+  if(!animate) item.style.animation = 'none';
+  item.innerHTML = `<div class="ri-l"><div class="ri-user">${seller}</div><div class="ri-buyer">Тип фото: ${buyer}</div></div><div class="ri-price">${price.toLocaleString('ru-RU')} ₽</div>`;
+  list.insertBefore(item, list.firstChild);
+  while(list.children.length > 5) list.removeChild(list.lastChild);
+}
+
+function openModal(){ document.getElementById('overlay').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeModal(){ document.getElementById('overlay').classList.remove('open'); document.body.style.overflow=''; }
+function closeIfOutside(e){ if(e.target===document.getElementById('overlay')) closeModal(); }
+</script>
+</body>
+</html>
